@@ -1,57 +1,81 @@
-from flask import Flask, request, math
+from flask import Flask, request
 from operations import add, sub, mult, div
 
 app = Flask(__name__)
 
-@app.get('/add')
-def get_form():
 
-    return """
-      <form method="POST">
-        <input name="a">
-        <input name="b">
-        <button>submit</button>
-      </form>
-    """
+OPERATIONS = {
+    "add": add,
+    "sub": sub,
+    "mult": mult,
+    "div": div
+}
+
+
+
+@app.get('/math/<operation>')
+def do_operation(operation):
+
+    a = int(request.args.get("a"))
+    b = int(request.args.get("b"))
+
+    result = OPERATIONS[operation](a,b)
+
+    return f"{result}"
+
+
+@app.get('/add')
+def do_add():
+
+    a = int(request.args["a"])
+    b = int(request.args["b"])
+
+    result = add(a, b)
+
+    return f"{result}"
 
 @app.get('/sub')
-def get_form():
+def do_sub():
 
-    return """
-      <form method="POST">
-        <input name="a">
-        <input name="b">
-        <button>submit</button>
-      </form>
-    """
+    a = int(request.args["a"])
+    b = int(request.args["b"])
+    result = sub(a, b)
+
+    return f"{result}"
 
 @app.get('/mult')
-def get_form():
+def do_mult():
 
-    return """
-      <form method="POST">
-        <input name="a">
-        <input name="b">
-        <button>submit</button>
-      </form>
-    """
+    a = int(request.args["a"])
+    b = int(request.args["b"])
+    result = mult(a, b)
+
+    return f"{result}"
 
 @app.get('/div')
-def get_form():
+def do_div():
 
-    return """
-      <form method="POST">
-        <input name="a">
-        <input name="b">
-        <button>submit</button>
-      </form>
-    """
+    a = int(request.args["a"])
+    b = int(request.args["b"])
+    result = div(a, b)
+
+    return f"{result}"
 
 
-@app.post('/domath')
-def do_math():
 
-    a = request.args["a"]
-    b = request.args["b"]
+    # return """
+    #   <form method="POST">
+    #     <input name="a">
+    #     <input name="b">
+    #     <button>submit</button>
+    #   </form>
+    # """
 
-    return
+
+# @app.post('/domath')
+# def do_math():
+
+#     a = request.args["a"]
+#     b = request.args["b"]
+
+#     return
